@@ -8,5 +8,6 @@
         public string Country { get; set; }
         public string City { get; set; }
         public string Addres { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

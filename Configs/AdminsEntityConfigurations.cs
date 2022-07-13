@@ -22,6 +22,8 @@ namespace OnlineMarket.Configs
             builder.Property(p => p.Addres)
                .HasColumnType("nvarchar")
                .HasMaxLength(35);
+            builder.HasMany(a => a.Users)
+                .WithMany(u => u.Admins);
         }
     }
 }

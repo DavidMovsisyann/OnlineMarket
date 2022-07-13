@@ -9,5 +9,6 @@
         public int Count { get; set; }   
         public bool IsDiscounted { get;set; }
         public double Discount { get; set; }
+        public ICollection<ProductCategory> Categories { get; set; }
     }
 }

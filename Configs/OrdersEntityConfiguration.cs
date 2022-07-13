@@ -15,6 +15,8 @@ namespace OnlineMarket.Configs
                 .HasColumnType("decimal")
                 .HasPrecision(14,4);
             builder.HasKey(p => p.OrderId);
+            builder.HasMany(o => o.Customers)
+                .WithMany(o => o.Orders);
         }
     }
 }

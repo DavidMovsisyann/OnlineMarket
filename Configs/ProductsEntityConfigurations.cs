@@ -15,15 +15,16 @@ namespace OnlineMarket.Configs
                   .HasDefaultValue(false);
             builder.Property(p => p.Price)
                   .HasColumnType("decimal")
-                  .HasPrecision(16,6);
+                  .HasPrecision(16, 6);
             builder.Property(p => p.Discount)
                   .HasColumnType("decimal")
                   .HasPrecision(16, 6);
             builder.Property(p => p.Count)
                   .HasColumnType("int");
             builder.HasKey(p => p.Id);
+            builder.HasMany(s => s.Categories)
+            .WithMany(g => g.Products);
             
-
         }
     }
 }

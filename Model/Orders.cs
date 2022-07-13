@@ -10,5 +10,6 @@ namespace OnlineMarket.Model
         public int ProductId { get; set; }
         public int ProductCount { get; set; }
         public int Discount { get; set; }
+        public ICollection<Customers> Customers { get; set; }
     }
 }

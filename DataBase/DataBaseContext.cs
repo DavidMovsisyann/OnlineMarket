@@ -22,6 +22,7 @@ namespace OnlineMarket.DataBase
             modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
             modelBuilder.ApplyConfiguration(new OrdersEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AdminsEntityConfigurations());
+            
 
         }
         public DbSet<Users> Users { get; set; }

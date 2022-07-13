@@ -22,6 +22,36 @@ namespace OnlineMarket.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("AdminsUsers", b =>
+                {
+                    b.Property<int>("AdminsAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdminsAdminId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AdminsUsers");
+                });
+
+            modelBuilder.Entity("CustomersOrders", b =>
+                {
+                    b.Property<int>("CustomersCustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomersCustomerId", "OrdersOrderId");
+
+                    b.HasIndex("OrdersOrderId");
+
+                    b.ToTable("CustomersOrders");
+                });
+
             modelBuilder.Entity("OnlineMarket.Model.Admins", b =>
                 {
                     b.Property<int>("AdminId")
@@ -222,6 +252,66 @@ namespace OnlineMarket.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("ProductCategoryProducts", b =>
+                {
+                    b.Property<int>("CategoriesCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesCategoryId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("ProductCategoryProducts");
+                });
+
+            modelBuilder.Entity("AdminsUsers", b =>
+                {
+                    b.HasOne("OnlineMarket.Model.Admins", null)
+                        .WithMany()
+                        .HasForeignKey("AdminsAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMarket.Model.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CustomersOrders", b =>
+                {
+                    b.HasOne("OnlineMarket.Model.Customers", null)
+                        .WithMany()
+                        .HasForeignKey("CustomersCustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMarket.Model.Orders", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductCategoryProducts", b =>
+                {
+                    b.HasOne("OnlineMarket.Model.ProductCategory", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMarket.Model.Products", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
