@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineMarket.Model;
-namespace OnlineMarket.Configs
+using OnlineMarket.Entities;
+namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class ProductsEntityConfigurations : IEntityTypeConfiguration<Products>
+    public class ProductEntityConfigurations : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Products> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.Property(p => p.ProductName)
+            builder.Property(p => p.Name)
                   .HasColumnType("nvarchar")
                   .HasMaxLength(30);
             builder.Property(p => p.IsDiscounted)
@@ -22,9 +22,12 @@ namespace OnlineMarket.Configs
             builder.Property(p => p.Count)
                   .HasColumnType("int");
             builder.HasKey(p => p.Id);
-            builder.HasMany(s => s.Categories)
-            .WithMany(g => g.Products);
-            
+
+            builder.HasOne(s => s.Category)
+            .WithMany(c => c.Product)
+            .HasForeignKey(c => c.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

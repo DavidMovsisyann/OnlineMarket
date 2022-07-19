@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineMarket.Model;
-namespace OnlineMarket.Configs
+using OnlineMarket.Entities;
+namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class CategoryEntityConfiguration : IEntityTypeConfiguration<ProductCategory>
+    public class CategoryEntityConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<ProductCategory> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.Property(p => p.Name)
                 .HasColumnType("nvarchar")

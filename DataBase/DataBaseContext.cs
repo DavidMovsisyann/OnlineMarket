@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using OnlineMarket.Model;
-using OnlineMarket.Configs;
+using OnlineMarket.Entities;
+using OnlineMarket.Entities.EntityConfigurations;
 namespace OnlineMarket.DataBase
 {
     public class DataBaseContext : DbContext
@@ -17,19 +17,17 @@ namespace OnlineMarket.DataBase
         {
 
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new CustomersEntityConfig());
-            modelBuilder.ApplyConfiguration(new ProductsEntityConfigurations());
+            modelBuilder.ApplyConfiguration(new CustomerEntityConfig());
+            modelBuilder.ApplyConfiguration(new ProductEntityConfigurations());
             modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new OrdersEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new AdminsEntityConfigurations());
+            modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
             
 
         }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Customers> Customers { get; set; }
-        public DbSet<Products> Products { get; set; }
-        public DbSet<ProductCategory> Categories { get; set; }
-        public DbSet<Orders> Orders { get; set; }
-        public DbSet<Admins> Admins { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Order> Order { get; set; }
     }
 }

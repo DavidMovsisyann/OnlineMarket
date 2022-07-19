@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineMarket.Model;
+using OnlineMarket.Entities;
 
-namespace OnlineMarket
+namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<Users>
+    public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
 
-        public void Configure(EntityTypeBuilder<Users> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
 
-            builder.ToTable("Users");
+            builder.ToTable("User");
             builder
                  .Property(p => p.FirstName)
                  .HasColumnType("nvarchar")
@@ -26,16 +26,15 @@ namespace OnlineMarket
                 .Property(p => p.UserName)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(25);
+            // OR
             builder
                 .Property(p => p.Email)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(25);
+                .HasColumnType("NVARCHAR(25)");
             builder
                 .Property(p => p.BirthDate)
                 .HasColumnType("Date");
             builder
                 .HasKey(user => user.Id);
-
         }
     }
 }

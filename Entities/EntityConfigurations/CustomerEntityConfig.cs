@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineMarket.Model;
-namespace OnlineMarket.Configs
+using OnlineMarket.Entities;
+namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class CustomersEntityConfig : IEntityTypeConfiguration<Customers>
+    public class CustomerEntityConfig : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Customers> builder)
+        public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.ToTable("Customers");
+            builder.ToTable("Customer");
             builder
                 .Property(p => p.Country)
                 .HasColumnType("nvarchar")
@@ -22,6 +22,11 @@ namespace OnlineMarket.Configs
                 .HasColumnType("nvarchar")
                 .HasMaxLength(15);
             builder.HasKey(p=>p.CustomerId);
+
+            builder.HasOne(p => p.User)
+                .WithOne(p => p.Customer)
+                .HasForeignKey<Customer>(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         
