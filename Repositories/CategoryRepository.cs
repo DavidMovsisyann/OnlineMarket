@@ -4,7 +4,8 @@ using System.Data.Entity;
 
 namespace OnlineMarket.Repositories
 {
-    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
+    // TODO :: Always divide interfaces and implementation into different folders
+    public class CategoryRepository:GenericRepository<Category>,ICategoryRepository
     {
         public CategoryRepository(DataBaseContext context) : base(context) { }
 

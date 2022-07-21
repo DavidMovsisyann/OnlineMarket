@@ -9,6 +9,7 @@ namespace OnlineMarket.Repositories
     {
         public ProductRepository(DataBaseContext context) : base(context) { }
 
+        // TODO :: there is no need to override and write the same logic
         public override async Task<IEnumerable<Product>> GetAll()
         {
             try
