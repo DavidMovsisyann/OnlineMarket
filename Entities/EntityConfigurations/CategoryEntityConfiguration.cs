@@ -14,7 +14,8 @@ namespace OnlineMarket.Entities.EntityConfigurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(50);
             builder.HasKey(p => p.CategoryId);
-            
+
+            // TODO :: explicitly show autoincremention of primary key in all config files
         }
     }
 }

@@ -11,5 +11,6 @@ namespace OnlineMarket.Entities
         public int ProductCount { get; set; }
         public int Discount { get; set; }
         public Customer Customer { get; set; }
+        // TODO :: missing Product property
     }
 }
