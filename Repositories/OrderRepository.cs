@@ -8,6 +8,7 @@ namespace OnlineMarket.Repositories
     {
         public OrderRepository(DataBaseContext context) : base(context) { }
 
+        // TODO :: there is no need to override and write the same logic for all repos.
         public override async Task<IEnumerable<Order>> GetAll()
         {
             try
@@ -37,12 +38,16 @@ namespace OnlineMarket.Repositories
                 exsisting.Customer = obj.Customer;
                 exsisting.CustomerId = obj.CustomerId;
                 exsisting.Discount = obj.Discount;
+
+                // TODO :: this method is not complete
             }
             catch
             {
                 throw new Exception("Update method error");
             }
         }
+
+        // TODO :: no need to override, but where is the null check
         public override async Task Delete(int Id)
         {
             try

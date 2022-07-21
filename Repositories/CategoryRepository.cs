@@ -4,13 +4,13 @@ using System.Data.Entity;
 
 namespace OnlineMarket.Repositories
 {
-    public class CategoryRepository:GenericRepository<Category>,ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
         public CategoryRepository(DataBaseContext context) : base(context) { }
 
         public override async Task<IEnumerable<Category>> GetAll()
         {
-            try 
+            try
             {
                 return await table.ToListAsync();
             }
