@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineMarket.Entities;
 namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class ProductEntityConfigurations : IEntityTypeConfiguration<Product>
+    public class ProductEntityConfigurations : IEntityTypeConfiguration<ProductEntity>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
             builder.Property(p => p.Name)
                   .HasColumnType("nvarchar")
@@ -24,7 +24,7 @@ namespace OnlineMarket.Entities.EntityConfigurations
             builder.HasKey(p => p.Id);
 
             builder.HasOne(s => s.Category)
-            .WithMany(c => c.Product)
+            .WithMany(c => c.Products)
             .HasForeignKey(c => c.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 

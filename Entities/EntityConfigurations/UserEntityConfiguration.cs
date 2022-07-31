@@ -4,10 +4,10 @@ using OnlineMarket.Entities;
 
 namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<User>
+    public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     {
 
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
 
             builder.ToTable("User");

@@ -5,31 +5,18 @@ using OnlineMarket.Entities;
 
 namespace OnlineMarket.Repositories
 {
-    public class ProductRepository:GenericRepository<Product>, IProductRepository
+    public class ProductRepository:GenericRepository<ProductEntity>, IProductRepository
     {
         public ProductRepository(DataBaseContext context) : base(context) { }
 
-        public override async Task<IEnumerable<Product>> GetAll()
+        public override async Task Update(ProductEntity obj)
         {
             try
             {
-                return await table.ToListAsync();
-            }
-            catch
-            {
-                throw new Exception("Get all method error");
-                return new List<Product>();
-            }
-        }
-
-        public override async Task Update(Product obj)
-        {
-            try
-            {
-                var exsisting = await table.Where(x => x.Id == obj.Id).FirstOrDefaultAsync();
+                var exsisting = await dataBaseContext.Set<ProductEntity>().Where(x => x.Id == obj.Id).FirstOrDefaultAsync();
 
                 if (exsisting == null)
-                    table.Add(obj);
+                    dataBaseContext.Set<ProductEntity>().Add(obj);
 
                 exsisting.Discount = obj.Discount;
                 exsisting.IsDiscounted = obj.IsDiscounted;
@@ -37,6 +24,7 @@ namespace OnlineMarket.Repositories
                 exsisting.Price = obj.Price;
                 exsisting.Category = obj.Category;
                 exsisting.CategoryId = obj.CategoryId;
+                dataBaseContext.Set<ProductEntity>().Attach(exsisting);
             }
             catch
             {
@@ -47,8 +35,12 @@ namespace OnlineMarket.Repositories
         {
             try
             {
-                var exsisting = await table.Where(x => x.Id == Id).FirstOrDefaultAsync();
-                table.Remove(exsisting);
+                var exsisting = await dataBaseContext.Set<ProductEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
+                if (exsisting != null)
+                {
+                    dataBaseContext.Set<ProductEntity>().Remove(exsisting);
+                }
+                dataBaseContext.Set<ProductEntity>().Remove(exsisting);
             }
             catch
             {

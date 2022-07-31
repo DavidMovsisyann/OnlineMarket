@@ -1,8 +1,9 @@
-﻿using OnlineMarket.Enums.EntityEnums;
+﻿using OnlineMarket.Entities;
+using OnlineMarket.Enums.EntityEnums;
 
-namespace OnlineMarket.Entities
+namespace OnlineMarket.RequestModels
 {
-    public class User
+    public class UserModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -12,7 +13,5 @@ namespace OnlineMarket.Entities
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public UserRoles Role { get; set; }
-
-        public Customer? Customer { get; set; }
     }
 }

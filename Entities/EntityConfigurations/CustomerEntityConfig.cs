@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineMarket.Entities;
 namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class CustomerEntityConfig : IEntityTypeConfiguration<Customer>
+    public class CustomerEntityConfig : IEntityTypeConfiguration<CustomerEntity>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public void Configure(EntityTypeBuilder<CustomerEntity> builder)
         {
             builder.ToTable("Customer");
             builder
@@ -21,11 +21,11 @@ namespace OnlineMarket.Entities.EntityConfigurations
             builder.Property(p => p.PhoneNumber)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(15);
-            builder.HasKey(p=>p.CustomerId);
+            builder.HasKey(p=>p.Id);
 
             builder.HasOne(p => p.User)
                 .WithOne(p => p.Customer)
-                .HasForeignKey<Customer>(x => x.UserId)
+                .HasForeignKey<CustomerEntity>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 

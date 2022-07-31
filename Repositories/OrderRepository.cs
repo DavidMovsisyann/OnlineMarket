@@ -4,31 +4,31 @@ using OnlineMarket.Entities;
 
 namespace OnlineMarket.Repositories
 {
-    public class OrderRepository:GenericRepository<Order>,IOrderRepository
+    public class OrderRepository:GenericRepository<OrderEntity>,IOrderRepository
     {
         public OrderRepository(DataBaseContext context) : base(context) { }
 
-        public override async Task<IEnumerable<Order>> GetAll()
+        public  async Task<IEnumerable<OrderEntity>> GetAll()
         {
             try
             {
-                return await table.ToListAsync();
+                return await dataBaseContext.Set<OrderEntity>().ToListAsync();
             }
             catch
             {
                 throw new Exception("Get all method error");
-                return new List<Order>();
+                return new List<OrderEntity>();
             }
         }
 
-        public override async Task Update(Order obj)
+        public override async Task Update(OrderEntity obj)
         {
             try
             {
-                var exsisting = await table.Where(x => x.OrderId == obj.OrderId).FirstOrDefaultAsync();
+                var exsisting = await dataBaseContext.Set<OrderEntity>().Where(x => x.Id == obj.Id).FirstOrDefaultAsync();
 
                 if (exsisting == null)
-                    table.Add(obj);
+                    dataBaseContext.Set<OrderEntity>().Add(obj);
 
                 exsisting.OrderDate = obj.OrderDate;
                 exsisting.RequierdDate=obj.RequierdDate;
@@ -37,6 +37,7 @@ namespace OnlineMarket.Repositories
                 exsisting.Customer = obj.Customer;
                 exsisting.CustomerId = obj.CustomerId;
                 exsisting.Discount = obj.Discount;
+                dataBaseContext.Set<OrderEntity>().Attach(exsisting);
             }
             catch
             {
@@ -47,8 +48,12 @@ namespace OnlineMarket.Repositories
         {
             try
             {
-                var exsisting = await table.Where(x => x.OrderId == Id).FirstOrDefaultAsync();
-                table.Remove(exsisting);
+                var exsisting = await dataBaseContext.Set<OrderEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
+                if (exsisting != null)
+                {
+                    dataBaseContext.Set<OrderEntity>().Remove(exsisting);
+                }
+                dataBaseContext.Set<OrderEntity>().Remove(exsisting);
             }
             catch
             {

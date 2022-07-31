@@ -22,13 +22,13 @@ namespace OnlineMarket.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("OnlineMarket.Entities.Category", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.CategoryEntity", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -40,18 +40,18 @@ namespace OnlineMarket.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Customer", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.CustomerEntity", b =>
                 {
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Addres")
                         .IsRequired()
@@ -76,7 +76,7 @@ namespace OnlineMarket.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("CustomerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -84,13 +84,13 @@ namespace OnlineMarket.Migrations
                     b.ToTable("Customer", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Order", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.OrderEntity", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -111,14 +111,14 @@ namespace OnlineMarket.Migrations
                     b.Property<DateTimeOffset>("RequierdDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Product", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.ProductEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,10 +154,10 @@ namespace OnlineMarket.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.User", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,20 +200,20 @@ namespace OnlineMarket.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Customer", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.CustomerEntity", b =>
                 {
-                    b.HasOne("OnlineMarket.Entities.User", "User")
+                    b.HasOne("OnlineMarket.Entities.UserEntity", "User")
                         .WithOne("Customer")
-                        .HasForeignKey("OnlineMarket.Entities.Customer", "UserId")
+                        .HasForeignKey("OnlineMarket.Entities.CustomerEntity", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Order", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.OrderEntity", b =>
                 {
-                    b.HasOne("OnlineMarket.Entities.Customer", "Customer")
+                    b.HasOne("OnlineMarket.Entities.CustomerEntity", "Customer")
                         .WithMany("Order")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -222,9 +222,9 @@ namespace OnlineMarket.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Product", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.ProductEntity", b =>
                 {
-                    b.HasOne("OnlineMarket.Entities.Category", "Category")
+                    b.HasOne("OnlineMarket.Entities.CategoryEntity", "Category")
                         .WithMany("Product")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -233,17 +233,17 @@ namespace OnlineMarket.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Category", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.CategoryEntity", b =>
                 {
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.Customer", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.CustomerEntity", b =>
                 {
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("OnlineMarket.Entities.User", b =>
+            modelBuilder.Entity("OnlineMarket.Entities.UserEntity", b =>
                 {
                     b.Navigation("Customer");
                 });

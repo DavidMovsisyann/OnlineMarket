@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineMarket.Repositories;
 
-namespace OnlineMarket.Repositories
+namespace OnlineMarket.RepsitoryInterfaces
 {
     public interface IUnitOfWork
     {
@@ -8,7 +9,7 @@ namespace OnlineMarket.Repositories
         ICustomerRepository Customer { get; }
         ICategoryRepository Category { get; }
         IProductRepository Product { get; }
-        IOrderRepository Orders { get; }
+        IOrderRepository Order { get; }
         
 
         Task CompleteAsync();

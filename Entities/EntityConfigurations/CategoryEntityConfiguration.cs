@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineMarket.Entities;
 namespace OnlineMarket.Entities.EntityConfigurations
 {
-    public class CategoryEntityConfiguration : IEntityTypeConfiguration<Category>
+    public class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEntity>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<CategoryEntity> builder)
         {
             builder.Property(p => p.Name)
                 .HasColumnType("nvarchar")
@@ -13,7 +13,7 @@ namespace OnlineMarket.Entities.EntityConfigurations
             builder.Property(p => p.Description)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(50);
-            builder.HasKey(p => p.CategoryId);
+            builder.HasKey(p => p.Id);
             
         }
     }

@@ -1,49 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineMarket.DataBase;
+using OnlineMarket.RepsitoryInterfaces;
 using System.Threading.Tasks;
 namespace OnlineMarket.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        public DataBaseContext dataBaseContext = null;
-        public DbSet<T> table = null;
+        protected readonly DataBaseContext dataBaseContext;
 
-        public GenericRepository()
-        {
-            dataBaseContext = new DataBaseContext();
-            table = dataBaseContext.Set<T>();
-        }
+
         public GenericRepository(DataBaseContext context)
         {
-            context = dataBaseContext;
-            table = dataBaseContext.Set<T>();
+            dataBaseContext = context;
         }
+
         public virtual async Task Delete(int Id)
         {
             throw new NotImplementedException();
 
         }
 
-        public virtual async Task<IEnumerable<T>> GetAll()
+        public Task<List<T>> GetAll()
         {
-            return table.ToList();
+            return dataBaseContext.Set<T>().ToListAsync();
         }
 
-        public virtual async Task<T> GetById(int Id)
+        public async Task<T> GetById(int Id)
         {
-            return await table.FindAsync(Id);
+            return await dataBaseContext.Set<T>().FindAsync(Id);
         }
 
-        public virtual async Task Insert(T obj)
+        public async Task Insert(T obj)
         {
-            table.Attach(obj);
+            dataBaseContext.Set<T>().Add(obj);
         }
 
 
         public virtual async Task Update(T obj)
         {
-            throw new NotImplementedException();
+            dataBaseContext.Set<T>().Update(obj);
         }
-    
+
     }
 }

@@ -1,37 +1,38 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using OnlineMarket.DataBase;
+using OnlineMarket.RepsitoryInterfaces;
 
 namespace OnlineMarket.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
         public IUserRepository User { get; }
         public ICustomerRepository Customer { get; }
         public ICategoryRepository Category { get; }
         public IProductRepository Product { get; }
-        public IOrderRepository Orders { get; }
-        
+        public IOrderRepository Order { get; }
+
 
         public UnitOfWork(DataBaseContext context)
         {
-            this.context = context;
-            User = new UserRepository(context);
-            Customer = new CustomerRepository(context);
-            Category = new CategoryRepository(context);
-            Product = new ProductRepository(context);
-            Orders = new OrderRepository(context);
-        }
-        
-        public async Task CompleteAsync()
-        {
-            await context.SaveChangesAsync();
+            _context = context;
+            User = new UserRepository(_context);
+            Customer = new CustomerRepository(_context);
+            Category = new CategoryRepository(_context);
+            Product = new ProductRepository(_context);
+            Order = new OrderRepository(_context);
         }
 
-        public IDbContextTransaction GetTransaction()
+        public async Task CompleteAsync()
         {
-            return  context.Database.CurrentTransaction;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IDbContextTransaction> GetTransaction()
+        {
+            return await _context.Database.BeginTransactionAsync();
         }
     }
 }
