@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineMarket.Entities;
 using OnlineMarket.RequestModels;
 using OnlineMarket.Services;
+using AutoMapper;
 namespace OnlineMarket.Controllers
 {
     [ApiController]
@@ -13,19 +15,43 @@ namespace OnlineMarket.Controllers
         {
             service = _service;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
+
+        [HttpGet("Id")]
+        public async Task<UserEntity> GetUserById(int id)
         {
-            await service.GetUsers(1);
-            return Ok();
+            return await service.GetUserById(id);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<UserEntity>> GetUsers()
+        {
+            return await service.GetUsers();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] UserModel user)
         {
-            await service.AddUser(user);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserEntity, UserModel>());
+            var mapper = new Mapper(config);
+            UserModel _user = mapper.Map<UserModel>(user);
+            await service.AddUser(_user);
             return Ok();
         }
 
+        [HttpDelete("Id")]
+        public async Task DeleteUser(int id) 
+        {
+           await service.DeleteUser(id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody]UserModel user)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserEntity, UserModel>());
+            var mapper = new Mapper(config);
+            UserModel _user = mapper.Map<UserModel>(user);
+            await service.UpdateUser(_user);
+            return Ok();
+        }
     }
 }

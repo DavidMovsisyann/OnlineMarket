@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineMarket.DataBase;
+using OnlineMarket.Repositories;
+using OnlineMarket.RepsitoryInterfaces;
 using OnlineMarket.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,13 @@ builder.Services.AddDbContext<DataBaseContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
+builder.Services.AddTransient<Service>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

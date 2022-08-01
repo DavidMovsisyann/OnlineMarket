@@ -9,7 +9,10 @@ namespace OnlineMarket.Services
     public class Service
     {
         private readonly IUnitOfWork _unitOfWork;
-
+        private UserEntity userEntity = new UserEntity();
+        private CategoryEntity categoryEntity = new CategoryEntity();
+        private ProductEntity productEntity = new ProductEntity();
+        private OrderEntity orderEntity = new OrderEntity();
 
         public Service(IUnitOfWork unitOfWork)
         {
@@ -17,69 +20,35 @@ namespace OnlineMarket.Services
         }
         public async Task AddUser(UserModel user)
         {
-            await _unitOfWork.User.Insert(user);
+            await _unitOfWork.User.Insert(userEntity);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateUser(UserModel user)
         {
-            if (user.Role == UserRoles.Admin)
-            {
-                await _unitOfWork.User.Update(user);
+                await _unitOfWork.User.Update(userEntity);
                 await _unitOfWork.CompleteAsync();
-            }
-            else
-            {
-                throw new Exception("You don't have permisions for (Update User)");
-            }
         }
 
         public async Task DeleteUser(int id)
         {
-            var existing = await _unitOfWork.User.GetById(id);
-
-            if (existing.Role == UserRoles.Customer)
-            {
                 await _unitOfWork.User.Delete(id);
                 await _unitOfWork.CompleteAsync();
-            }
-            else
-            {
-                throw new Exception("You don't have permisions for (Delete User)");
-            }
         }
 
-        public async Task<IEnumerable<UserModel>> GetUsers(int id)
+        public async Task<IEnumerable<UserEntity>> GetUsers()
         {
-            var existing = await _unitOfWork.User.GetById(id);
-
-            if (existing.Role == UserRoles.Admin)
-            {
-                return await _unitOfWork.User.GetAll();
-            }
-            else
-            {
-                throw new Exception("You don't have permisions for (Get Users)");
-            }
+            return await _unitOfWork.User.GetAll(x => x.Id > 0, 0, null); 
         }
 
-        public async Task<UserModel> GetUserById(int id)
+        public async Task<UserEntity> GetUserById(int id)
         {
-            var existing = await _unitOfWork.User.GetById(id);
-
-            if (existing.Role == UserRoles.Admin)
-            {
-                return await _unitOfWork.User.GetById(id);
-            }
-            else
-            {
-                throw new Exception("You don't have permisions for (Get User By Id)");
-            }
+            return await _unitOfWork.User.Get(x => x.Id == id);
         }
 
-        public async Task AddCategory(CategoryEntity category)
+        public async Task AddCategory(CategoryModel category)
         {
-            await _unitOfWork.Category.Insert(category);
+            await _unitOfWork.Category.Insert(categoryEntity);
             await _unitOfWork.CompleteAsync();
         }
 
@@ -89,25 +58,25 @@ namespace OnlineMarket.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task UpdateCategory(CategoryEntity category)
+        public async Task UpdateCategory(CategoryModel category)
         {
-            await _unitOfWork.Category.Update(category);
+            await _unitOfWork.Category.Update(categoryEntity);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task<IEnumerable<CategoryEntity>> GetCategories()
         {
-            return await _unitOfWork.Category.GetAll();
+            return await _unitOfWork.Category.GetAll(x => x.Id > 0, 0, null);
         }
 
         public async Task<CategoryEntity> GetCategoryById(int id)
         {
-            return await _unitOfWork.Category.GetById(id);
+            return await _unitOfWork.Category.Get(x => x.Id == id);
         }
 
-        public async Task AddProduct(ProductEntity product)
+        public async Task AddProduct(ProductModel product)
         {
-            await _unitOfWork.Product.Insert(product);
+            await _unitOfWork.Product.Insert(productEntity);
             await _unitOfWork.CompleteAsync();
         }
 
@@ -119,23 +88,23 @@ namespace OnlineMarket.Services
 
         public async Task<IEnumerable<ProductEntity>> GetProducts()
         {
-            return await _unitOfWork.Product.GetAll();
+            return await _unitOfWork.Product.GetAll(x => x.Id > 0, 0, null);
         }
 
         public async Task<ProductEntity> GetProductById(int id)
         {
-            return await _unitOfWork.Product.GetById(id);
+            return await _unitOfWork.Product.Get(x => x.Id == id);
         }
 
-        public async Task UpdateProduct(ProductEntity product)
+        public async Task UpdateProduct(ProductModel product)
         {
-            await _unitOfWork.Product.Update(product);
+            await _unitOfWork.Product.Update(productEntity);
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task AddOrder(OrderEntity order)
+        public async Task AddOrder(OrderModel order)
         {
-            await _unitOfWork.Order.Insert(order);
+            await _unitOfWork.Order.Insert(orderEntity);
             await _unitOfWork.CompleteAsync();
         }
 
@@ -147,17 +116,17 @@ namespace OnlineMarket.Services
 
         public async Task<OrderEntity> GetOrderById(int id)
         {
-            return await _unitOfWork.Order.GetById(id);
+            return await _unitOfWork.Order.Get(x => x.Id == id);
         }
 
         public async Task<IEnumerable<OrderEntity>> GetOrders()
         {
-            return await _unitOfWork.Order.GetAll();
+            return await _unitOfWork.Order.GetAll(x => x.Id > 0, 0, null);
         }
 
-        public async Task UpdateOrder(OrderEntity order)
+        public async Task UpdateOrder(OrderModel order)
         {
-            await _unitOfWork.Order.Update(order);
+            await _unitOfWork.Order.Update(orderEntity);
             await _unitOfWork.CompleteAsync();
         }
     }

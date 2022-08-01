@@ -1,5 +1,4 @@
-﻿using OnlineMarket.Entities;
-using OnlineMarket.Enums.EntityEnums;
+﻿using OnlineMarket.Enums.EntityEnums;
 
 namespace OnlineMarket.RequestModels
 {

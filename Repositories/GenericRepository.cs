@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineMarket.DataBase;
 using OnlineMarket.RepsitoryInterfaces;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 namespace OnlineMarket.Repositories
 {
@@ -20,14 +21,19 @@ namespace OnlineMarket.Repositories
 
         }
 
-        public Task<List<T>> GetAll()
+        public async Task<List<T>> GetAll(Expression<Func<T, bool>> predicate,int skip = 0,int? take = null)
         {
-            return dataBaseContext.Set<T>().ToListAsync();
+            var query = dataBaseContext.Set<T>().Where(predicate).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+            return await query.ToListAsync();
         }
 
-        public async Task<T> GetById(int Id)
+        public async Task<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return await dataBaseContext.Set<T>().FindAsync(Id);
+            return await dataBaseContext.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public async Task Insert(T obj)

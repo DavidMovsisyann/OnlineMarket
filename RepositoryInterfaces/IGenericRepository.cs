@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineMarket.DataBase;
+using System.Linq.Expressions;
 
 namespace OnlineMarket.RepsitoryInterfaces
 {
     public interface IGenericRepository<T>
     {
 
-        Task<List<T>> GetAll();
-        Task<T> GetById(int Id);
+        Task<List<T>> GetAll(Expression<Func<T, bool>> predicate,int skip,int? take);
+        Task<T> Get(Expression<Func<T, bool>> predicate);
         Task Insert(T obj);
         Task Update(T obj);
         Task Delete(int Id);
