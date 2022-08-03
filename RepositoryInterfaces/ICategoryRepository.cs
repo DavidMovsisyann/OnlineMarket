@@ -3,8 +3,8 @@ using OnlineMarket.RepsitoryInterfaces;
 
 namespace OnlineMarket.Repositories
 {
-    public interface ICategoryRepository:IGenericRepository<CategoryEntity>
+    public interface ICategoryRepository : IGenericRepository<CategoryEntity>
     {
-         
+       
     }
 }

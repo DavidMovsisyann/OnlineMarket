@@ -11,7 +11,7 @@ namespace OnlineMarket.RepsitoryInterfaces
         Task<T> Get(Expression<Func<T, bool>> predicate);
         Task Insert(T obj);
         Task Update(T obj);
-        Task Delete(int Id);
+        void Delete(T obj);
 
     }
 }

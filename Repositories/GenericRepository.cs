@@ -7,23 +7,23 @@ namespace OnlineMarket.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly DataBaseContext dataBaseContext;
+        protected readonly DataBaseContext _dataBaseContext;
 
 
-        public GenericRepository(DataBaseContext context)
+        public GenericRepository(DataBaseContext dataBaseContext)
         {
-            dataBaseContext = context;
+            _dataBaseContext = dataBaseContext;
         }
 
-        public virtual async Task Delete(int Id)
+        public void Delete(T obj)
         {
-            throw new NotImplementedException();
-
+            var dbEntityEntry = _dataBaseContext.Entry(obj);
+            dbEntityEntry.State = EntityState.Deleted;
         }
 
         public async Task<List<T>> GetAll(Expression<Func<T, bool>> predicate,int skip = 0,int? take = null)
         {
-            var query = dataBaseContext.Set<T>().Where(predicate).Skip(skip);
+            var query = _dataBaseContext.Set<T>().Where(predicate).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -33,18 +33,18 @@ namespace OnlineMarket.Repositories
 
         public async Task<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return await dataBaseContext.Set<T>().FirstOrDefaultAsync(predicate);
+            return await _dataBaseContext.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public async Task Insert(T obj)
         {
-            dataBaseContext.Set<T>().Add(obj);
+            _dataBaseContext.Set<T>().Add(obj);
         }
 
 
-        public virtual async Task Update(T obj)
+        public async Task Update(T obj)
         {
-            dataBaseContext.Set<T>().Update(obj);
+            _dataBaseContext.Set<T>().Update(obj);
         }
 
     }
