@@ -6,6 +6,8 @@ using OnlineMarket.Services;
 
 namespace OnlineMarket.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class OrderController : Controller
     {
         private readonly Service service;

@@ -6,6 +6,8 @@ using OnlineMarket.Services;
 
 namespace OnlineMarket.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ProductController : Controller
     {
         private readonly Service service;
@@ -38,9 +40,9 @@ namespace OnlineMarket.Controllers
         }
 
         [HttpDelete("Id")]
-        public async Task DeleteUser(int id)
+        public async Task DeleteProduct(int id)
         {
-            await service.DeleteUser(id);
+            await service.DeleteProduct(id);
         }
 
         [HttpPut]
