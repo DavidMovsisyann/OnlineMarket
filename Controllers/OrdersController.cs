@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using OnlineMarket.Entities;
-using OnlineMarket.RequestModels;
-using OnlineMarket.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using OnlineMarketCore.RequestModels;
+using OnlineMarketBLL.Services;
 
-namespace OnlineMarket.Controllers
+namespace OnlineMarketApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

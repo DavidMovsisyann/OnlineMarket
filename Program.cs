@@ -1,11 +1,13 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using OnlineMarket.DataBase;
-using OnlineMarket.Mapper;
-using OnlineMarket.Repositories;
-using OnlineMarket.RepsitoryInterfaces;
+using OnlineMarketBBL.Mapper;
+using OnlineMarketDAL.Repositories;
+using OnlineMarketCore.RepsitoryInterfaces;
 using OnlineMarket.ServiceInterfaces;
-using OnlineMarket.Services;
+using OnlineMarketBLL.Services;
+using OnlineMarketCore.RepositoryInterfaces;
+using OnlineMarketDal.DataBase;
+using OnlineMarketApi.ExceptionHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,23 +16,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataBaseContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"),x=>x.MigrationsAssembly("OnlineMarketDal"));
 });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
-builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
-builder.Services.AddTransient<UsersService>();
-builder.Services.AddTransient<OrdersService>();
-builder.Services.AddTransient<CategoriesService>();
-builder.Services.AddTransient<ProductsService>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(x.GetRequiredService<DataBaseContext>()));
+builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
+builder.Services.AddTransient<ICategoriesService, CategoriesService>();
+builder.Services.AddTransient<IProductsService, ProductsService>();
 
-var mapperConfig = new MapperConfiguration(mc => {
+var mapperConfig = new MapperConfiguration(mc =>
+{
     mc.AddProfile(new MapperProfile());
 });
 IMapper mapper = mapperConfig.CreateMapper();
@@ -47,6 +45,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.ConfigureExceptionHandler();
 
 app.UseAuthorization();
 
