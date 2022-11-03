@@ -6,7 +6,7 @@ using OnlineMarketCore.Entities;
 
 namespace OnlineMarketBLL.Services
 {
-    public class UsersService:IUsersService
+    public class UsersService : IUsersService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -47,7 +47,7 @@ namespace OnlineMarketBLL.Services
 
         public async Task<UserModel> GetUserById(int id)
         {
-            var user= await _unitOfWork.User.Get(x => x.Id == id);
+            var user = await _unitOfWork.User.Get(x => x.Id == id);
             UserModel _user = _mapper.Map<UserModel>(user);
             return _user;
         }
